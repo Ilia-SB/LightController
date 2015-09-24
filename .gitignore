@@ -74,3 +74,17 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+
+# IAR
+# =========================
+
+# Folders
+IAR/CC2530-Access_Point/
+IAR/CC2530-End_Device/
+IAR/CC2530-Range_Extender/
+IAR/Components/
+IAR/settings/
+
+# Files
+*.log
+*.tmp
