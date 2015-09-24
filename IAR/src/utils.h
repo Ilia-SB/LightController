@@ -8,6 +8,7 @@
 #include "radio.h"
 
 uint8_t split_param_string(const char*, char [][AT_SINGLE_PARAM_LEN]);
+bool arrays_equal(const uint8_t* arr1, const uint8_t* arr2, uint8_t len);
 bool strings_equal(const char*, const char*);
 bool string_contains_pos(const char*, const char*, uint8_t*);
 bool string_starts_with(const char*, const char*);

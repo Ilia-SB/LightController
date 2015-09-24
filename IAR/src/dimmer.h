@@ -33,7 +33,7 @@ struct t_light {
   uint8_t               target_brightness;
   uint8_t               max_brightness;
   uint8_t               min_brightness;
-  uint32_t              known_remotes[REMOTES_NUM];
+  uint8_t               known_remotes[REMOTES_NUM * 5]; //5 bytes per remote
   uint8_t               known_remotes_num;
   int                   increment;
   t_dimming_direction   dimming_direction;

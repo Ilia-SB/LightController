@@ -158,3 +158,11 @@ void report(uint8_t light_num, uint8_t state, uint8_t brightness) {
   output_int(brightness); outputln(";");
 }
 
+bool arrays_equal(const uint8_t* arr1, const uint8_t* arr2, uint8_t len) {
+  for (int i=0; i<len; i++) {
+    if (arr1[i] != arr2[i]) {
+      return false;
+    }
+  }
+  return true;
+}
