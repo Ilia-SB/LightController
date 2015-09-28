@@ -455,37 +455,47 @@ static void at_list_remotes() {
     output("Light "); output_int(i+1); outputln("");
     struct t_light *light = &lights[i]->Data;
     for (uint8_t j=0; j<light->known_remotes_num; j++) {
-      uint8_t *b = (uint8_t*)&light->known_remotes[j];
-      output_int(j); output(": "); output_uint_hex(b[3]); output_uint_hex(b[2]);
-       output_uint_hex(b[1]); outputln_uint_hex(b[0]);
+       output_int(j); output(": ");
+       output_uint_hex(light->known_remotes[j*5]);
+       output_uint_hex(light->known_remotes[j*5+1]);
+       output_uint_hex(light->known_remotes[j*5+2]);
+       output_uint_hex(light->known_remotes[j*5+3]);
+       outputln_uint_hex(light->known_remotes[j*5+4]);
     }
   }
 }
 
 static void at_register_remote(const char *param_string) {
-  char params[2][AT_SINGLE_PARAM_LEN];
+  char params[6][AT_SINGLE_PARAM_LEN];
+  uint8_t light_num;
+  uint8_t remote[5];
   int param_num = split_param_string(param_string, params);
-  if (param_num != 2) {
+  if (param_num != 6) {
     outputln("Incorrect number of parameters");
     return;
   }
   
-  uint8_t light_num = (uint8_t)strtoul(params[0], NULL, 10) - 1; //lights are 1-based hence -1
-  uint32_t remote = strtoul(params[1], NULL, 16);
-  uint8_t *bytes = (uint8_t*)&remote;
-  uint8_t temp;
-  for (int i=0, j=3; i<j; i++, j--) { //Reverse the array (big endian)
-    temp = bytes[i];
-    bytes[i] = bytes[j];
-    bytes[j] = temp;
-  }
+  light_num = (uint8_t)strtoul(params[0], NULL, 10) - 1; //lights are 1-based hence -1
+  remote[0] = (uint8_t)strtoul(params[1], NULL, 16);
+  remote[1] = (uint8_t)strtoul(params[2], NULL, 16);
+  remote[2] = (uint8_t)strtoul(params[3], NULL, 16);
+  remote[3] = (uint8_t)strtoul(params[4], NULL, 16);
+  remote[4] = (uint8_t)strtoul(params[5], NULL, 16);
+
   //TODO: Add check if remote is already known
   struct t_light *light = &lights[light_num]->Data;
   if (light->known_remotes_num >= REMOTES_NUM) {
     outputln("Too many remotes registered for the light. Can not register more.");
     return;
   } else {
-    light->known_remotes[light->known_remotes_num] = remote;
+    /*Check if remote is already known*/
+    for (int i=0; i<light->known_remotes_num; i++) {
+      if (arrays_equal(remote, light->known_remotes + i*5, 5)) {
+        outputln("Remote already known.");
+        return;
+      }
+    }
+    memcpy(light->known_remotes + light->known_remotes_num * 5, remote, 5);
     light->known_remotes_num++;
     outputln("OK");
   }
@@ -506,7 +516,9 @@ static void at_unregister_remote(const char *param_string) {
     light->known_remotes_num = 0;
   } else {
     uint8_t remote_num = (uint8_t)strtoul(params[1], NULL, 10);
-    memcpy(&light->known_remotes[remote_num-1], &light->known_remotes[remote_num], light->known_remotes_num-remote_num);
+    memcpy(light->known_remotes + remote_num * 5,
+           light->known_remotes + (remote_num + 1) * 5,
+           (light->known_remotes_num - remote_num - 1) * 5);
     light->known_remotes_num--;
   }
   outputln("OK");
@@ -521,11 +533,11 @@ void process_received_command(const char *command) {
   }
 }
 
-void process_remote(uint32_t remote) {
+void process_remote(const uint8_t *remote) {
   for (int i=0; i<4; i++) {
     struct t_light *light = &lights[i]->Data;
     for (int j=0; j<light->known_remotes_num; j++) {
-      if (light->known_remotes[j] == remote) {
+      if (arrays_equal(light->known_remotes + j*5, remote, 5)) {
         //outputln("Remote match");
         if (light->is_switched_on) {
           light_turn_off(light);
@@ -538,14 +550,14 @@ void process_remote(uint32_t remote) {
   }
 }
 
-void start_dimming(uint32_t remote) {
+void start_dimming(const uint8_t *remote) {
   outputln("Start dimming");
-  lights_process_interval_old = lights_process_interval; //Store the normal interval
-  lights_process_interval = 50; //Set a new interval for slow dimming
   for (int i=0; i<4; i++) {
     struct t_light *light = &lights[i]->Data;
     for (int j=0; j<light->known_remotes_num; j++) {
-      if (light->known_remotes[j] == remote) {
+      if (arrays_equal(light->known_remotes + j*5, remote, 5)) {
+        lights_process_interval_old = lights_process_interval; //Store the normal interval
+        lights_process_interval = 50; //Set a new interval for slow dimming
         if(!light->is_switched_on) { //If light is off, turn it on and dim up
           power_on(light);
           light->dimming_direction = UP;
@@ -563,13 +575,13 @@ void start_dimming(uint32_t remote) {
   }  
 }
 
-void stop_dimming(uint32_t remote) {
+void stop_dimming(const uint8_t *remote) {
   outputln("Stop dimming");
   lights_process_interval = lights_process_interval_old;
   for (int i=0; i<4; i++) {
     struct t_light *light = &lights[i]->Data;
     for (int j=0; j<light->known_remotes_num; j++) {
-      if (light->known_remotes[j] == remote) {
+      if (arrays_equal(light->known_remotes + j*5, remote, 5)) {
         light->increment = 0; //Stop dimming
         if (light->brightness != 0) {
           light->target_brightness = light->brightness; //Store current brightness value

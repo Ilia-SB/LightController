@@ -1517,13 +1517,13 @@
         </option>
         <option>
           <name>CCIncludePath2</name>
-          <state>$PROJ_DIR$\..\..\..\..\..\Components\bsp</state>
-          <state>$PROJ_DIR$\..\..\..\..\..\Components\bsp\drivers</state>
-          <state>$PROJ_DIR$\..\..\..\..\..\Components\bsp\boards\CC2530EM</state>
-          <state>$PROJ_DIR$\..\..\..\..\..\Components\mrfi</state>
-          <state>$PROJ_DIR$\..\..\..\..\..\Components\SimpliciTI\nwk</state>
-          <state>$PROJ_DIR$\..\..\..\..\..\Components\SimpliciTI\nwk_applications</state>
-          <state>$PROJ_DIR$\..\NV</state>
+          <state>$PROJ_DIR$\Components\bsp</state>
+          <state>$PROJ_DIR$\Components\bsp\drivers</state>
+          <state>$PROJ_DIR$\Components\bsp\boards\CC2530EM</state>
+          <state>$PROJ_DIR$\Components\mrfi</state>
+          <state>$PROJ_DIR$\Components\Simpliciti\nwk</state>
+          <state>$PROJ_DIR$\Components\Simpliciti\nwk_applications</state>
+          <state>$PROJ_DIR$\src</state>
         </option>
         <option>
           <name>CCStdIncCheck</name>
@@ -4382,7 +4382,7 @@
         <name>$PROJ_DIR$\Components\simpliciti\nwk_applications\nwk_pll.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\Components\simpliciti\nwk_applications\nwk_pll.h</name>
+        <name>$PROJ_DIR$\Components\Simpliciti\nwk_applications\nwk_pll.h</name>
       </file>
       <file>
         <name>$PROJ_DIR$\Components\simpliciti\nwk_applications\nwk_security.c</name>
