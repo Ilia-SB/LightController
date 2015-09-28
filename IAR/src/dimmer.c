@@ -533,11 +533,11 @@ void process_received_command(const char *command) {
   }
 }
 
-void process_remote(uint32_t remote) {
+void process_remote(const uint8_t *remote) {
   for (int i=0; i<4; i++) {
     struct t_light *light = &lights[i]->Data;
     for (int j=0; j<light->known_remotes_num; j++) {
-      if (light->known_remotes[j] == remote) {
+      if (arrays_equal(light->known_remotes + j*5, remote, 5)) {
         //outputln("Remote match");
         if (light->is_switched_on) {
           light_turn_off(light);
@@ -550,14 +550,14 @@ void process_remote(uint32_t remote) {
   }
 }
 
-void start_dimming(uint32_t remote) {
+void start_dimming(const uint8_t *remote) {
   outputln("Start dimming");
-  lights_process_interval_old = lights_process_interval; //Store the normal interval
-  lights_process_interval = 50; //Set a new interval for slow dimming
   for (int i=0; i<4; i++) {
     struct t_light *light = &lights[i]->Data;
     for (int j=0; j<light->known_remotes_num; j++) {
-      if (light->known_remotes[j] == remote) {
+      if (arrays_equal(light->known_remotes + j*5, remote, 5)) {
+        lights_process_interval_old = lights_process_interval; //Store the normal interval
+        lights_process_interval = 50; //Set a new interval for slow dimming
         if(!light->is_switched_on) { //If light is off, turn it on and dim up
           power_on(light);
           light->dimming_direction = UP;
@@ -575,13 +575,13 @@ void start_dimming(uint32_t remote) {
   }  
 }
 
-void stop_dimming(uint32_t remote) {
+void stop_dimming(const uint8_t *remote) {
   outputln("Stop dimming");
   lights_process_interval = lights_process_interval_old;
   for (int i=0; i<4; i++) {
     struct t_light *light = &lights[i]->Data;
     for (int j=0; j<light->known_remotes_num; j++) {
-      if (light->known_remotes[j] == remote) {
+      if (arrays_equal(light->known_remotes + j*5, remote, 5)) {
         light->increment = 0; //Stop dimming
         if (light->brightness != 0) {
           light->target_brightness = light->brightness; //Store current brightness value

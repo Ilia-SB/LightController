@@ -80,9 +80,9 @@ static void at_list_remotes(void);
 static void at_register_remote(const char*);
 static void at_unregister_remote(const char*);
 static void at_set_defaults(void);
-void process_remote(uint32_t);
-void start_dimming(uint32_t);
-void stop_dimming(uint32_t);
+void process_remote(const uint8_t*);
+void start_dimming(const uint8_t*);
+void stop_dimming(const uint8_t*);
 static void light_turn_on(struct t_light *);
 static void light_turn_off(struct t_light *);
 

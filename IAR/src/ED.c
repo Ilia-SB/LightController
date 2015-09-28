@@ -19,7 +19,6 @@
 
 void toggleLED(uint8_t);
 
-static void linkTo(void);
 static void serial_read(void);
 
 static uint8_t  sTid = 0;
@@ -27,9 +26,6 @@ static linkID_t sLinkID1 = 0;
 
 uint8_t mirror_output_to_radio = 0;
 uint8_t volatile radio_rx_complete = 0;
-
-#define SPIN_ABOUT_A_SECOND   NWK_DELAY(1000)
-#define SPIN_ABOUT_A_QUARTER_SECOND   NWK_DELAY(250)
 
 /* How many times to try a Tx and miss an acknowledge before doing a scan */
 #define MISSES_IN_A_ROW  2
@@ -41,10 +37,13 @@ char serial_buffer[READ_BUFFER_SIZE];
 char command_buffer[COMMAND_BUFFER_SIZE];
 uint8_t command_buffer_pos = 0;
 
+uint8_t lights_process_interval = 10;
+uint32_t lights_last_processed = 0;
+
 volatile uint8_t  rfm12_packet_read = 0, rfm12_command_pending = 0;
 volatile uint8_t  remote_buffer[5];
-volatile uint8_t  remote_bit_counter=0,
-                  remote_packet_counter = 0;
+volatile uint8_t  remote_bit_counter=0;
+volatile uint32_t remote_packet_counter = 0;
 volatile uint32_t previous_bit_time = 0, current_bit_time =0,
                   previous_packet_time = 0, current_packet_time = 0;
 
@@ -68,12 +67,13 @@ void main (void) {
       radio_rx_complete = 0;
       radio_receive();
     }
-    
+
+    /*Check remote*/
     if (rfm12_command_pending && (millis_elapsed(previous_packet_time) > RFM12_PACKET_THRESHOLD)) {
       if (remote_packet_counter == 5) {
-        outputln("On/Off");
+        process_remote((uint8_t*)remote_buffer);
       } else if (remote_packet_counter > 5) {
-        outputln("Stop dimming");
+        stop_dimming((uint8_t*)remote_buffer);
       }
       
       /*Cleanup*/
@@ -88,8 +88,14 @@ void main (void) {
       rfm12_command_pending = 1; //Set flag
       remote_packet_counter++;
       if (remote_packet_counter == 6) {
-        outputln("Start dimming");
+        start_dimming((uint8_t*)remote_buffer);
       }
+    }
+    
+    /*Process lights*/
+    if (millis_elapsed(lights_last_processed) > lights_process_interval) {
+      process_lights();
+      lights_last_processed = millis();
     }
   }
 
@@ -131,136 +137,6 @@ void main (void) {
 */
   /* Unconditional link to AP which is listening due to successful join. */
   //linkTo();
-}
-
-static void linkTo()
-{
-  uint8_t     msg[2];
-  uint8_t     button, misses, done;
-
-  /* Keep trying to link... */
-  while (SMPL_SUCCESS != SMPL_Link(&sLinkID1))
-  {
-    toggleLED(1);
-    toggleLED(2);
-    SPIN_ABOUT_A_SECOND; /* calls nwk_pllBackgrounder for us */
-  }
-
-  /* Turn off LEDs. */
-  if (BSP_LED2_IS_ON())
-  {
-    toggleLED(2);
-  }
-  if (BSP_LED1_IS_ON())
-  {
-    toggleLED(1);
-  }
-
-#ifndef FREQUENCY_HOPPING
-  /* sleep until button press... */
-  SMPL_Ioctl( IOCTL_OBJ_RADIO, IOCTL_ACT_RADIO_SLEEP, 0);
-#endif
-
-  while (1)
-  {
-    /* keep the FHSS scheduler happy */
-    FHSS_ACTIVE( nwk_pllBackgrounder( false ) );
-    
-    button = 0;
-    /* Send a message when either button pressed */
-    if (BSP_BUTTON1())
-    {  /* calls nwk_pllBackgrounder for us */
-      SPIN_ABOUT_A_QUARTER_SECOND;  /* debounce... */
-      /* Message to toggle LED 1. */
-      button = 1;
-    }
-    else if (BSP_BUTTON2())
-    {  /* calls nwk_pllBackgrounder for us */
-      SPIN_ABOUT_A_QUARTER_SECOND;  /* debounce... */
-      /* Message to toggle LED 2. */
-      button = 2;
-    }
-    if (button)
-    {
-      uint8_t      noAck;
-      smplStatus_t rc;
-
-#ifndef FREQUENCY_HOPPING
-      /* get radio ready...awakens in idle state */
-      SMPL_Ioctl( IOCTL_OBJ_RADIO, IOCTL_ACT_RADIO_AWAKE, 0);
-#endif
-
-      /* Set TID and designate which LED to toggle */
-      msg[1] = ++sTid;
-      msg[0] = (button == 1) ? 1 : 2;
-      done = 0;
-      while (!done)
-      {
-        noAck = 0;
-
-        /* Try sending message MISSES_IN_A_ROW times looking for ack */
-        for (misses=0; misses < MISSES_IN_A_ROW; ++misses)
-        {
-          if (SMPL_SUCCESS == (rc=SMPL_SendOpt(sLinkID1, msg, sizeof(msg), SMPL_TXOPTION_ACKREQ)))
-          {
-            /* Message acked. We're done. Toggle LED 1 to indicate ack received. */
-            toggleLED(1);
-            break;
-          }
-          if (SMPL_NO_ACK == rc)
-          {
-            /* Count ack failures. Could also fail becuase of CCA and
-             * we don't want to scan in this case.
-             */
-            noAck++;
-          }
-        }
-        if (MISSES_IN_A_ROW == noAck)
-        {
-          /* Message not acked. Toggle LED 2. */
-          toggleLED(2);
-#ifdef FREQUENCY_AGILITY
-          /* Assume we're on the wrong channel so look for channel by
-           * using the Ping to initiate a scan when it gets no reply. With
-           * a successful ping try sending the message again. Otherwise,
-           * for any error we get we will wait until the next button
-           * press to try again.
-           */
-          if (SMPL_SUCCESS != SMPL_Ping(sLinkID1))
-          {
-            done = 1;
-          }
-#else
-          done = 1;
-#endif  /* FREQUENCY_AGILITY */
-        }
-        else
-        {
-          /* Got the ack or we don't care. We're done. */
-          done = 1;
-        }
-      }
-
-#ifndef FREQUENCY_HOPPING
-      /* radio back to sleep */
-      SMPL_Ioctl( IOCTL_OBJ_RADIO, IOCTL_ACT_RADIO_SLEEP, 0);
-#endif
-    }
-  }
-}
-
-
-void toggleLED(uint8_t which)
-{
-  if (1 == which)
-  {
-    BSP_TOGGLE_LED1();
-  }
-  else if (2 == which)
-  {
-    BSP_TOGGLE_LED2();
-  }
-  return;
 }
 
 static void serial_read() {
