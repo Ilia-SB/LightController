@@ -9,6 +9,7 @@
 #include "nwk.h"
 #include "nwk_pll.h"
 #include "uart_intfc.h"
+#include "utils.h"
 
 #ifndef APP_AUTO_ACK
 #error ERROR: Must define the macro APP_AUTO_ACK for this application.
@@ -81,6 +82,12 @@ static void    changeChannel(void);
 /* work loop semaphores */
 static volatile uint8_t sPeerFrameSem = 0;
 static volatile uint8_t sJoinSem = 0;
+
+/* serial buffers */
+#define TMP_BUFFER_SIZE         16
+#define SERIAL_BUFFER_SIZE      128
+char tmp_buffer[TMP_BUFFER_SIZE];
+char serial_buffer[SERIAL_BUFFER_SIZE];
 
 #ifdef FREQUENCY_AGILITY
 /*     ************** BEGIN interference detection support */
@@ -176,6 +183,7 @@ void main (void)
       }
     }
       checkChangeChannel();
+  }
 }
 
 /* Runs in ISR context. Reading the frame should be done in the */
@@ -199,7 +207,11 @@ static void processMessage(linkID_t lid, uint8_t *msg, uint8_t len)
 {
   if (len)
   {
-    tx_send_wait(msg, len);
+    itoa(lid, tmp_buffer);
+    strcat(serial_buffer, tmp_buffer);
+    strcat(serial_buffer, "|");
+    strcat(serial_buffer, (char*)msg);
+    tx_send_wait(serial_buffer, strlen(serial_buffer));
   }
   return;
 }

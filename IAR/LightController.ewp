@@ -4404,18 +4404,30 @@
       <name>rfm12</name>
       <file>
         <name>$PROJ_DIR$\src\rfm12.c</name>
+        <excluded>
+          <configuration>CC2530-Access Point</configuration>
+        </excluded>
       </file>
       <file>
         <name>$PROJ_DIR$\src\rfm12.h</name>
+        <excluded>
+          <configuration>CC2530-Access Point</configuration>
+        </excluded>
       </file>
     </group>
     <group>
       <name>spi</name>
       <file>
         <name>$PROJ_DIR$\src\spi.c</name>
+        <excluded>
+          <configuration>CC2530-Access Point</configuration>
+        </excluded>
       </file>
       <file>
         <name>$PROJ_DIR$\src\spi.h</name>
+        <excluded>
+          <configuration>CC2530-Access Point</configuration>
+        </excluded>
       </file>
     </group>
     <group>
@@ -4483,6 +4495,9 @@
         <name>End Device</name>
         <file>
           <name>$PROJ_DIR$\src\ED.c</name>
+          <excluded>
+            <configuration>CC2530-Access Point</configuration>
+          </excluded>
         </file>
       </group>
       <group>
