@@ -63,7 +63,8 @@ Solution overview:
 
 *************************** END COMMENTS ON ASYNC LISTEN APPLICATION ********************/
 
-/************  THIS SOURCE FILE REPRESENTS THE AUTOMATIC NOTIFICATION SOLUTION ************/
+
+extern void nwkGetRemotePeerAddr(linkID_t sLinkId, addr_t *peerAddr);
 
 /* reserve space for the maximum possible peer Link IDs */
 static linkID_t sLID[NUM_CONNECTIONS] = {0};
@@ -207,7 +208,14 @@ static void processMessage(linkID_t lid, uint8_t *msg, uint8_t len)
 {
   if (len)
   {
-    itoa(lid, tmp_buffer);
+    addr_t sender;
+    memset(serial_buffer, SERIAL_BUFFER_SIZE);
+    nwkGetRemotePeerAddr(lid, &sender);
+    for (int i=0; i<NET_ADDR_SIZE; i++) {
+      itoa(sender[i], tmp_buffer);
+      strcat(serial_buffer, tmp_buffer);
+    }
+    
     strcat(serial_buffer, tmp_buffer);
     strcat(serial_buffer, "|");
     strcat(serial_buffer, (char*)msg);

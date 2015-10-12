@@ -16,7 +16,7 @@
       <file>$PROJ_DIR$\Components\simpliciti\nwk_applications\nwk_link.h</file>
       <file>$PROJ_DIR$\Components\simpliciti\nwk_applications\nwk_mgmt.c</file>
       <file>$PROJ_DIR$\Components\simpliciti\nwk_applications\nwk_freq.c</file>
-      <file>$PROJ_DIR$\Components\Simpliciti\nwk\nwk_types.h</file>
+      <file>$PROJ_DIR$\Components\simpliciti\nwk\nwk_types.h</file>
       <file>$PROJ_DIR$\Components\Simpliciti\nwk\nwk.h</file>
       <file>$PROJ_DIR$\Components\simpliciti\nwk\nwk_app.h</file>
       <file>$PROJ_DIR$\Components\simpliciti\nwk_applications\nwk_link.c</file>
@@ -1274,7 +1274,7 @@
       <inputs>
         <tool>
           <name>XLINK</name>
-          <file> 45 190 57 88 121 37 39 84 184 174 52 177 87 75 183 125 74 63 170 90 153 56 209 204 46 198 65</file>
+          <file> 45 190 57 88 121 37 39 84 184 174 52 177 87 75 183 125 74 63 170 90 209 204 46 198 65</file>
         </tool>
       </inputs>
     </file>
@@ -1502,10 +1502,6 @@
       <name>$PROJ_DIR$\..\NV\nv.c</name>
       <tool>ICC8051</tool>
     </forcedrebuild>
-    <forcedrebuild>
-      <name>[MULTI_TOOL]</name>
-      <tool>XLINK</tool>
-    </forcedrebuild>
   </configuration>
   <configuration>
     <name>CC2530-Channel Sniffer</name>
@@ -1528,7 +1524,7 @@
       <file>$PROJ_DIR$\Components\simpliciti\nwk_applications\nwk_link.h</file>
       <file>$PROJ_DIR$\Components\simpliciti\nwk_applications\nwk_mgmt.c</file>
       <file>$PROJ_DIR$\Components\simpliciti\nwk_applications\nwk_freq.c</file>
-      <file>$PROJ_DIR$\Components\Simpliciti\nwk\nwk_types.h</file>
+      <file>$PROJ_DIR$\Components\simpliciti\nwk\nwk_types.h</file>
       <file>$PROJ_DIR$\Components\Simpliciti\nwk\nwk.h</file>
       <file>$PROJ_DIR$\Components\simpliciti\nwk\nwk_app.h</file>
       <file>$PROJ_DIR$\Components\simpliciti\nwk_applications\nwk_link.c</file>
