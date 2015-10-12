@@ -539,6 +539,16 @@ connInfo_t *nwk_findAlreadyJoined(mrfiPacket_t *frame)
   /* Nothing found... */
   return (connInfo_t *)NULL;
 }
+
+void nwkGetRemotePeerAddr(linkID_t sLinkId, addr_t *peerAddr)
+{
+  uint8_t index;
+ 
+  if(map_lid2idx(sLinkId, &index))
+  {
+    memcpy(peerAddr->addr, sPersistInfo.connStruct[index].peerAddr, NET_ADDR_SIZE);
+  }
+}
 #endif  /* AP_IS_DATA_HUB */
 #endif  /* ACCESS_POINT */
 
@@ -1074,14 +1084,4 @@ smplStatus_t nwk_NVObj(ioctlAction_t action, ioctlNVObj_t *val)
 #else  /* NVOBJECT_SUPPORT */
   return SMPL_BAD_PARAM;
 #endif
-}
-
-void nwkGetRemotePeerAddr(linkID_t sLinkId, addr_t *peerAddr)
-{
-  uint8_t index;
- 
-  if(map_lid2idx(sLinkId, &index))
-  {
-    memcpy(peerAddr->addr, sPersistInfo.connStruct[index].peerAddr, NET_ADDR_SIZE);
-  }
 }

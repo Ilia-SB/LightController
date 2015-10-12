@@ -49,12 +49,13 @@ volatile uint32_t previous_bit_time = 0, current_bit_time =0,
 
 void main (void) {
   BSP_Init();
-  //radio_init();
+  radio_init();
   uart_intfc_init();
-  SMPL_Init(0);
+  //SMPL_Init(0);
   dimmer_init();
   rfm12_init();
   outputln("Starting...");
+  mirror_output_to_radio = 1;
   
   while(1) {
     /*Check serial*/
