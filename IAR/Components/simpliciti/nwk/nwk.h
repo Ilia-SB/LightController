@@ -153,7 +153,7 @@ sfInfo_t     *nwk_getSFInfoPtr(void);
 #ifdef AP_IS_DATA_HUB
 uint8_t       nwk_saveJoinedDevice(mrfiPacket_t *);
 connInfo_t   *nwk_findAlreadyJoined(mrfiPacket_t *);
-void nwkGetRemotePeerAddr(linkID_t sLinkId, addr_t *peerAddr)
+void nwkGetRemotePeerAddr(linkID_t sLinkId, addr_t *peerAddr);
 #endif
 #endif
 

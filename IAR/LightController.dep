@@ -6,34 +6,34 @@
   <configuration>
     <name>CC2530-Access Point</name>
     <outputs>
-      <file>$PROJ_DIR$\Components\Simpliciti\nwk_applications\nwk_mgmt.h</file>
+      <file>$PROJ_DIR$\Components\simpliciti\nwk_applications\nwk_mgmt.h</file>
       <file>$PROJ_DIR$\Components\simpliciti\nwk_applications\nwk_ping.c</file>
-      <file>$PROJ_DIR$\Components\Simpliciti\nwk_applications\nwk_ping.h</file>
+      <file>$PROJ_DIR$\Components\simpliciti\nwk_applications\nwk_ping.h</file>
       <file>$PROJ_DIR$\Components\simpliciti\nwk_applications\nwk_pll.c</file>
       <file>$PROJ_DIR$\Components\simpliciti\nwk_applications\nwk_security.c</file>
-      <file>$PROJ_DIR$\Components\Simpliciti\nwk_applications\nwk_join.h</file>
-      <file>$PROJ_DIR$\Components\Simpliciti\nwk_applications\nwk_ioctl.h</file>
-      <file>$PROJ_DIR$\Components\Simpliciti\nwk_applications\nwk_link.h</file>
+      <file>$PROJ_DIR$\Components\simpliciti\nwk_applications\nwk_join.h</file>
+      <file>$PROJ_DIR$\Components\simpliciti\nwk_applications\nwk_ioctl.h</file>
+      <file>$PROJ_DIR$\Components\simpliciti\nwk_applications\nwk_link.h</file>
       <file>$PROJ_DIR$\Components\simpliciti\nwk_applications\nwk_mgmt.c</file>
       <file>$PROJ_DIR$\Components\simpliciti\nwk_applications\nwk_freq.c</file>
-      <file>$PROJ_DIR$\Components\simpliciti\nwk\nwk_types.h</file>
-      <file>$PROJ_DIR$\Components\simpliciti\nwk\nwk.h</file>
+      <file>$PROJ_DIR$\Components\Simpliciti\nwk\nwk_types.h</file>
+      <file>$PROJ_DIR$\Components\Simpliciti\nwk\nwk.h</file>
       <file>$PROJ_DIR$\Components\simpliciti\nwk\nwk_app.h</file>
       <file>$PROJ_DIR$\Components\simpliciti\nwk_applications\nwk_link.c</file>
       <file>$PROJ_DIR$\Components\Simpliciti\nwk_applications\nwk_pll.h</file>
       <file>$PROJ_DIR$\src\nv.c</file>
       <file>$PROJ_DIR$\src\nv.h</file>
-      <file>$PROJ_DIR$\Components\Simpliciti\nwk_applications\nwk_freq.h</file>
+      <file>$PROJ_DIR$\Components\simpliciti\nwk_applications\nwk_freq.h</file>
       <file>$PROJ_DIR$\Components\simpliciti\nwk_applications\nwk_join.c</file>
       <file>$PROJ_DIR$\Components\simpliciti\nwk\nwk_frame.c</file>
       <file>$PROJ_DIR$\Components\simpliciti\nwk\nwk_api.c</file>
       <file>$PROJ_DIR$\Components\simpliciti\nwk\nwk_globals.c</file>
-      <file>$PROJ_DIR$\Components\simpliciti\nwk\nwk_QMgmt.h</file>
-      <file>$PROJ_DIR$\Components\simpliciti\nwk\nwk_frame.h</file>
+      <file>$PROJ_DIR$\Components\Simpliciti\nwk\nwk_QMgmt.h</file>
+      <file>$PROJ_DIR$\Components\Simpliciti\nwk\nwk_frame.h</file>
       <file>$PROJ_DIR$\Components\simpliciti\nwk_applications\nwk_ioctl.c</file>
       <file>$PROJ_DIR$\Components\Simpliciti\nwk\nwk_api.h</file>
       <file>$PROJ_DIR$\Components\simpliciti\nwk\nwk.c</file>
-      <file>$PROJ_DIR$\Components\simpliciti\nwk\nwk_globals.h</file>
+      <file>$PROJ_DIR$\Components\Simpliciti\nwk\nwk_globals.h</file>
       <file>$PROJ_DIR$\Components\mrfi\mrfi_defs.h</file>
       <file>$PROJ_DIR$\Components\simpliciti\nwk\nwk_QMgmt.c</file>
       <file>$PROJ_DIR$\Components\bsp\bsp.h</file>
@@ -113,7 +113,7 @@
       <file>$PROJ_DIR$\..\NV\utils.c</file>
       <file>$PROJ_DIR$\..\NV\spi.h</file>
       <file>$PROJ_DIR$\..\..\..\..\..\Components\simpliciti\nwk_applications\nwk_security.h</file>
-      <file>$PROJ_DIR$\Components\Simpliciti\nwk_applications\nwk_security.h</file>
+      <file>$PROJ_DIR$\Components\simpliciti\nwk_applications\nwk_security.h</file>
       <file>$PROJ_DIR$\Components\bsp\drivers\uart_intfc.h</file>
       <file>$PROJ_DIR$\src\radio.c</file>
       <file>$PROJ_DIR$\Components\bsp\drivers\uart.h</file>
@@ -1106,10 +1106,6 @@
       <name>$PROJ_DIR$\src\AP.c</name>
       <outputs>
         <tool>
-          <name>ICC8051</name>
-          <file> 190</file>
-        </tool>
-        <tool>
           <name>BICOMP</name>
           <file> 187</file>
         </tool>
@@ -1514,34 +1510,34 @@
   <configuration>
     <name>CC2530-End Device</name>
     <outputs>
-      <file>$PROJ_DIR$\Components\Simpliciti\nwk_applications\nwk_mgmt.h</file>
+      <file>$PROJ_DIR$\Components\simpliciti\nwk_applications\nwk_mgmt.h</file>
       <file>$PROJ_DIR$\Components\simpliciti\nwk_applications\nwk_ping.c</file>
-      <file>$PROJ_DIR$\Components\Simpliciti\nwk_applications\nwk_ping.h</file>
+      <file>$PROJ_DIR$\Components\simpliciti\nwk_applications\nwk_ping.h</file>
       <file>$PROJ_DIR$\Components\simpliciti\nwk_applications\nwk_pll.c</file>
       <file>$PROJ_DIR$\Components\simpliciti\nwk_applications\nwk_security.c</file>
-      <file>$PROJ_DIR$\Components\Simpliciti\nwk_applications\nwk_join.h</file>
-      <file>$PROJ_DIR$\Components\Simpliciti\nwk_applications\nwk_ioctl.h</file>
-      <file>$PROJ_DIR$\Components\Simpliciti\nwk_applications\nwk_link.h</file>
+      <file>$PROJ_DIR$\Components\simpliciti\nwk_applications\nwk_join.h</file>
+      <file>$PROJ_DIR$\Components\simpliciti\nwk_applications\nwk_ioctl.h</file>
+      <file>$PROJ_DIR$\Components\simpliciti\nwk_applications\nwk_link.h</file>
       <file>$PROJ_DIR$\Components\simpliciti\nwk_applications\nwk_mgmt.c</file>
       <file>$PROJ_DIR$\Components\simpliciti\nwk_applications\nwk_freq.c</file>
-      <file>$PROJ_DIR$\Components\simpliciti\nwk\nwk_types.h</file>
-      <file>$PROJ_DIR$\Components\simpliciti\nwk\nwk.h</file>
+      <file>$PROJ_DIR$\Components\Simpliciti\nwk\nwk_types.h</file>
+      <file>$PROJ_DIR$\Components\Simpliciti\nwk\nwk.h</file>
       <file>$PROJ_DIR$\Components\simpliciti\nwk\nwk_app.h</file>
       <file>$PROJ_DIR$\Components\simpliciti\nwk_applications\nwk_link.c</file>
       <file>$PROJ_DIR$\Components\Simpliciti\nwk_applications\nwk_pll.h</file>
       <file>$PROJ_DIR$\src\nv.c</file>
       <file>$PROJ_DIR$\src\nv.h</file>
-      <file>$PROJ_DIR$\Components\Simpliciti\nwk_applications\nwk_freq.h</file>
+      <file>$PROJ_DIR$\Components\simpliciti\nwk_applications\nwk_freq.h</file>
       <file>$PROJ_DIR$\Components\simpliciti\nwk_applications\nwk_join.c</file>
       <file>$PROJ_DIR$\Components\simpliciti\nwk\nwk_frame.c</file>
       <file>$PROJ_DIR$\Components\simpliciti\nwk\nwk_api.c</file>
       <file>$PROJ_DIR$\Components\simpliciti\nwk\nwk_globals.c</file>
-      <file>$PROJ_DIR$\Components\simpliciti\nwk\nwk_QMgmt.h</file>
-      <file>$PROJ_DIR$\Components\simpliciti\nwk\nwk_frame.h</file>
+      <file>$PROJ_DIR$\Components\Simpliciti\nwk\nwk_QMgmt.h</file>
+      <file>$PROJ_DIR$\Components\Simpliciti\nwk\nwk_frame.h</file>
       <file>$PROJ_DIR$\Components\simpliciti\nwk_applications\nwk_ioctl.c</file>
       <file>$PROJ_DIR$\Components\Simpliciti\nwk\nwk_api.h</file>
       <file>$PROJ_DIR$\Components\simpliciti\nwk\nwk.c</file>
-      <file>$PROJ_DIR$\Components\simpliciti\nwk\nwk_globals.h</file>
+      <file>$PROJ_DIR$\Components\Simpliciti\nwk\nwk_globals.h</file>
       <file>$PROJ_DIR$\Components\mrfi\mrfi_defs.h</file>
       <file>$PROJ_DIR$\Components\simpliciti\nwk\nwk_QMgmt.c</file>
       <file>$PROJ_DIR$\Components\bsp\bsp.h</file>
@@ -1649,7 +1645,7 @@
       <file>$PROJ_DIR$\..\NV\utils.c</file>
       <file>$PROJ_DIR$\..\NV\spi.h</file>
       <file>$PROJ_DIR$\..\..\..\..\..\Components\simpliciti\nwk_applications\nwk_security.h</file>
-      <file>$PROJ_DIR$\Components\Simpliciti\nwk_applications\nwk_security.h</file>
+      <file>$PROJ_DIR$\Components\simpliciti\nwk_applications\nwk_security.h</file>
       <file>$PROJ_DIR$\Components\bsp\drivers\uart_intfc.h</file>
       <file>$PROJ_DIR$\src\radio.c</file>
       <file>$PROJ_DIR$\Components\bsp\drivers\uart.h</file>
@@ -2020,6 +2016,10 @@
     <file>
       <name>$PROJ_DIR$\Components\simpliciti\nwk\nwk.c</name>
       <outputs>
+        <tool>
+          <name>ICC8051</name>
+          <file> 71</file>
+        </tool>
         <tool>
           <name>BICOMP</name>
           <file> 96</file>

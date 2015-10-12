@@ -87,8 +87,8 @@ static volatile uint8_t sJoinSem = 0;
 /* serial buffers */
 #define TMP_BUFFER_SIZE         16
 #define SERIAL_BUFFER_SIZE      128
-char tmp_buffer[TMP_BUFFER_SIZE];
-char serial_buffer[SERIAL_BUFFER_SIZE];
+static char tmp_buffer[TMP_BUFFER_SIZE];
+static char serial_buffer[SERIAL_BUFFER_SIZE];
 
 #ifdef FREQUENCY_AGILITY
 /*     ************** BEGIN interference detection support */
@@ -209,10 +209,10 @@ static void processMessage(linkID_t lid, uint8_t *msg, uint8_t len)
   if (len)
   {
     addr_t sender;
-    memset(serial_buffer, SERIAL_BUFFER_SIZE);
+    memset(serial_buffer, 0, SERIAL_BUFFER_SIZE);
     nwkGetRemotePeerAddr(lid, &sender);
     for (int i=0; i<NET_ADDR_SIZE; i++) {
-      itoa(sender[i], tmp_buffer);
+      itoa(sender.addr[i], tmp_buffer);
       strcat(serial_buffer, tmp_buffer);
     }
     
