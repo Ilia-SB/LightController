@@ -158,9 +158,15 @@ void main (void)
         {
           addr_t sender;
           memset(tmp_buffer, 0, TMP_BUFFER_SIZE);
+          memset(serial_buffer, 0, SERIAL_BUFFER_SIZE);
+          strcat(serial_buffer, "Peer joined: ");
           nwkGetRemotePeerAddr(sLID[sNumCurrentPeers], &sender);
           uiatoa(tmp_buffer, sender.addr, NET_ADDR_SIZE);
-          output("Peer joined: "); outputln(tmp_buffer);
+          strcat(serial_buffer, tmp_buffer);
+          uitoa_hex(sLID[sNumCurrentPeers], tmp_buffer);
+          strcat(serial_buffer, ":");
+          strcat(serial_buffer, tmp_buffer);
+          outputln(serial_buffer);
 
           break;
         }
@@ -219,12 +225,9 @@ static void processMessage(linkID_t lid, uint8_t *msg, uint8_t len)
 {
   if (len)
   {
-    addr_t sender;
-    
-    *(msg + len) = '\0';
+    *(msg + len) = '\0'; //add string terminator to received string
     memset(serial_buffer, 0, SERIAL_BUFFER_SIZE); //clear buffer
-    nwkGetRemotePeerAddr(lid, &sender);
-    uiatoa(serial_buffer, sender.addr, NET_ADDR_SIZE); //convert sender address to string
+    uitoa_hex(lid, serial_buffer); //convert link id to string
     
     strcat(serial_buffer, "|");
     strcat(serial_buffer, (char*)msg);
