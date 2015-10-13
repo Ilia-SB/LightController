@@ -66,6 +66,8 @@ Solution overview:
 
 extern void nwkGetRemotePeerAddr(linkID_t sLinkId, addr_t *peerAddr);
 
+uint8_t mirror_output_to_radio = 0;
+
 /* reserve space for the maximum possible peer Link IDs */
 static linkID_t sLID[NUM_CONNECTIONS] = {0};
 static uint8_t  sNumCurrentPeers = 0;
@@ -87,8 +89,8 @@ static volatile uint8_t sJoinSem = 0;
 /* serial buffers */
 #define TMP_BUFFER_SIZE         16
 #define SERIAL_BUFFER_SIZE      128
-static char tmp_buffer[TMP_BUFFER_SIZE];
-static char serial_buffer[SERIAL_BUFFER_SIZE];
+char tmp_buffer[TMP_BUFFER_SIZE];
+char serial_buffer[SERIAL_BUFFER_SIZE];
 
 #ifdef FREQUENCY_AGILITY
 /*     ************** BEGIN interference detection support */
@@ -129,6 +131,9 @@ void main (void)
 #endif /* I_WANT_TO_CHANGE_DEFAULT_ROM_DEVICE_ADDRESS_PSEUDO_CODE */
 
   SMPL_Init(sCB);
+  uart_intfc_init();
+  
+  outputln("AP Starting...");
 
   /* main work loop */
   while (1)
@@ -151,6 +156,12 @@ void main (void)
       {
         if (SMPL_SUCCESS == SMPL_LinkListen(&sLID[sNumCurrentPeers]))
         {
+          addr_t sender;
+          memset(tmp_buffer, 0, TMP_BUFFER_SIZE);
+          nwkGetRemotePeerAddr(sLID[sNumCurrentPeers], &sender);
+          uiatoa(tmp_buffer, sender.addr, NET_ADDR_SIZE);
+          output("Peer joined: "); outputln(tmp_buffer);
+
           break;
         }
         /* Implement fail-to-link policy here. otherwise, listen again. */
@@ -209,17 +220,16 @@ static void processMessage(linkID_t lid, uint8_t *msg, uint8_t len)
   if (len)
   {
     addr_t sender;
-    memset(serial_buffer, 0, SERIAL_BUFFER_SIZE);
-    nwkGetRemotePeerAddr(lid, &sender);
-    for (int i=0; i<NET_ADDR_SIZE; i++) {
-      itoa(sender.addr[i], tmp_buffer);
-      strcat(serial_buffer, tmp_buffer);
-    }
     
-    strcat(serial_buffer, tmp_buffer);
+    *(msg + len) = '\0';
+    memset(serial_buffer, 0, SERIAL_BUFFER_SIZE); //clear buffer
+    nwkGetRemotePeerAddr(lid, &sender);
+    uiatoa(serial_buffer, sender.addr, NET_ADDR_SIZE); //convert sender address to string
+    
     strcat(serial_buffer, "|");
     strcat(serial_buffer, (char*)msg);
-    tx_send_wait(serial_buffer, strlen(serial_buffer));
+    //tx_send_wait(serial_buffer, strlen(serial_buffer));
+    outputln(serial_buffer);
   }
   return;
 }

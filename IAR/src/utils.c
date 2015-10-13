@@ -109,6 +109,13 @@ void itoa(int n, char s[]) {
      reverse(s);
 }
 
+void uiatoa(char *output_array, const uint8_t *input_array, uint8_t len) {
+  for (int i=0; i<len; i++) {
+      uitoa_hex(input_array[i], temp_buffer);
+      strcat(output_array, temp_buffer);
+  }
+}
+
  void reverse(char s[]) {
      int i, j;
      char c;

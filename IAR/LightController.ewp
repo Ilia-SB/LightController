@@ -81,7 +81,7 @@
         </option>
         <option>
           <name>Constant Placement</name>
-          <state>0</state>
+          <state>1</state>
         </option>
         <option>
           <name>Datapointer Size</name>
@@ -4275,18 +4275,30 @@
       <name>dimmer</name>
       <file>
         <name>$PROJ_DIR$\src\dimmer.c</name>
+        <excluded>
+          <configuration>CC2530-Access Point</configuration>
+        </excluded>
       </file>
       <file>
         <name>$PROJ_DIR$\src\dimmer.h</name>
+        <excluded>
+          <configuration>CC2530-Access Point</configuration>
+        </excluded>
       </file>
     </group>
     <group>
       <name>flash</name>
       <file>
         <name>$PROJ_DIR$\src\nv.c</name>
+        <excluded>
+          <configuration>CC2530-Access Point</configuration>
+        </excluded>
       </file>
       <file>
         <name>$PROJ_DIR$\src\nv.h</name>
+        <excluded>
+          <configuration>CC2530-Access Point</configuration>
+        </excluded>
       </file>
     </group>
     <group>
@@ -4434,9 +4446,15 @@
       <name>timer</name>
       <file>
         <name>$PROJ_DIR$\src\timer.c</name>
+        <excluded>
+          <configuration>CC2530-Access Point</configuration>
+        </excluded>
       </file>
       <file>
         <name>$PROJ_DIR$\src\timer.h</name>
+        <excluded>
+          <configuration>CC2530-Access Point</configuration>
+        </excluded>
       </file>
     </group>
     <group>
@@ -4545,10 +4563,10 @@
             <configuration>CC2530-Channel Sniffer</configuration>
           </excluded>
         </file>
+        <file>
+          <name>$PROJ_DIR$\Configuration\smpl_nwk_config.dat</name>
+        </file>
       </group>
-      <file>
-        <name>$PROJ_DIR$\Configuration\smpl_nwk_config.dat</name>
-      </file>
     </group>
   </group>
 </project>

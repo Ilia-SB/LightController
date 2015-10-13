@@ -83,7 +83,7 @@
 -DxSW_TIMER
 
 /* causes leds to blink in 00 -> 01 -> 11 -> 10 -> 00 rotation when FHSS enabled */
--DNWK_PLL_SHOW_LOCATION_INDICATORS
+-DxNWK_PLL_SHOW_LOCATION_INDICATORS
 
 
 /* Sets the UART to use.  The selection below will steer the UART signals to/from

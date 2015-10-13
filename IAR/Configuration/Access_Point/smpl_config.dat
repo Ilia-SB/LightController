@@ -45,7 +45,7 @@
 /* AP needs larger input frame queue if it is supporting store-and-forward
  * clients because the forwarded messages are held here.
  */
--DSIZE_INFRAME_Q=6
+-DSIZE_INFRAME_Q=32
 
 /* The output frame queue can be small since Tx is done synchronously. Actually
  * 1 is probably enough. If an Access Point device is also hosting an End Device 

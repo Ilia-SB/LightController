@@ -22,6 +22,7 @@ void output_uint_hex(unsigned int n);
 void outputln_uint_hex(unsigned int n);
 void itoa(int n, char s[]);
 void uitoa_hex(unsigned int num, char* buff);
+void uiatoa(char *output_array, const uint8_t *input_array, uint8_t len);
 void reverse(char s[]);
 void report(uint8_t light_num, uint8_t state, uint8_t brightness);
 #endif

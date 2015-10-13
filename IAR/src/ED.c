@@ -49,8 +49,9 @@ volatile uint32_t previous_bit_time = 0, current_bit_time =0,
 
 void main (void) {
   BSP_Init();
-  radio_init();
   uart_intfc_init();
+  radio_init();
+  radio_link();
   //SMPL_Init(0);
   dimmer_init();
   rfm12_init();
